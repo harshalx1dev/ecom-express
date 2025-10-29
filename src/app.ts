@@ -45,4 +45,5 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 });
 
 // Server Listener
-app.listen(process.env.PORT, () => console.log(`Server up and running on PORT: ${process.env.PORT}\nhttp://localhost:5000/`))
+// app.listen(process.env.PORT, () => console.log(`Server up and running on PORT: ${process.env.PORT}\nhttp://localhost:5000/`))
+export default app;
