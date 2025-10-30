@@ -12,6 +12,8 @@ const app = express();
 
 const origins = process.env.WHITELISTED_URLS?.split(';');
 
+console.log('[ORIGINS]', origins);
+
 app.use(cors({
   origin: origins,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
