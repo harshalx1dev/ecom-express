@@ -70,7 +70,7 @@ export async function loginRouteController(req: Request, res: Response, next: Ne
 
     if (!existingUser) return res.status(404).json({ status: 'error', message: `User does not exist!` });
 
-    const isValid = verifyPassword(password, existingUser.password);
+    const isValid = await verifyPassword(password, existingUser.password);
 
     if (!isValid) return res.status(401).json({ status: 'error', message: 'Invalid Email ID or Password!' });
 
