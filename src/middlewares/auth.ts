@@ -5,6 +5,9 @@ import db from "../libs/prisma-client";
 
 export const authenticate = async (req: Request, res: Response, next: NextFunction) => {
   try {
+
+    console.log('[COOKIES]', req.headers.cookie);
+
     const authToken = getCookie('Authorization', req.headers.cookie) || '';
 
     if (!authToken) return res.status(401).json({ status: 'error', message: 'Authentication token missing!' });
