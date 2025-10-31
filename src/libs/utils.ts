@@ -8,8 +8,13 @@ export const getAccessToken = async (userId: string) => {
 }
 
 export const setAccessToken = async (userId: string, res: Response) => {
-  const token = sign({ userId }, process.env.JWT_SECRET!, { expiresIn: '30m' });
-  res.cookie('Authorization', token, { maxAge: 1000 * 60 * 30 })
+  const token = sign({ userId }, process.env.JWT_SECRET!, { expiresIn: "30m" });
+  res.cookie("Authorization", token, {
+    maxAge: 1000 * 60 * 30,
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+  });
   return res;
 }
 
