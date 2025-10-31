@@ -12,16 +12,30 @@ const app = express();
 
 const origins = process.env.WHITELISTED_URLS?.split(';');
 
+
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+
+  if (origins && origins.includes(origin || '')) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
+
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, x-requested-with");
+
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
+  next();
+});
+
 app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests like Postman (no origin)
+  origin(origin, callback) {
     if (!origin) return callback(null, true);
-
-    if (origins?.includes(origin)) {
-      return callback(null, true);
-    }
-
-    return callback(new Error('Not allowed by CORS'));
+    if (origins && origins.includes(origin)) return callback(null, true);
+    return callback(new Error("CORS blocked: " + origin));
   },
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
   credentials: true
