@@ -12,13 +12,22 @@ const app = express();
 
 const origins = process.env.WHITELISTED_URLS?.split(';');
 
-console.log('[ORIGINS]', origins);
-
 app.use(cors({
-  origin: origins,
+  origin: function (origin, callback) {
+    // Allow requests like Postman (no origin)
+    if (!origin) return callback(null, true);
+
+    if (origins?.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error('Not allowed by CORS'));
+  },
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
   credentials: true
 }))
+
+app.options('*', cors());
 
 // JSON Body Parser
 app.use(express.json());
