@@ -4,8 +4,8 @@ import { authenticate } from "../../middlewares/auth";
 
 const sizeRouter = Router({ mergeParams: true });
 
-sizeRouter.get('/sizes', authenticate, getSizesController);
-sizeRouter.get('/sizes/:sizeId', authenticate, getSizeController);
+sizeRouter.get('/sizes', getSizesController);
+sizeRouter.get('/sizes/:sizeId', getSizeController);
 sizeRouter.post('/sizes', createSizeController);
 sizeRouter.patch('/sizes/:sizeId', updateSizeController);
 sizeRouter.delete('/sizes/:sizeId', deleteSizeController);
